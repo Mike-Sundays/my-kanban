@@ -1,8 +1,10 @@
-export interface Card {
+export interface ICard {
+    id: number
     text: string
 }
 
-export interface Column {
+export interface IColumn {
+    id: number,
     title: string
-    cards: Card[]
+    cards: ICard[]
 }
