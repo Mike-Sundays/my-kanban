@@ -5,35 +5,35 @@ import {useDroppable} from "@dnd-kit/core";
 
 export function Column({id, column, index, onTitleChange}) {
 
-    const {setNodeRef} = useDroppable({id: column.id});
+  const {setNodeRef} = useDroppable({id: column.id});
 
-    return (
-        <SortableContext id={id} items={column.cards} strategy={verticalListSortingStrategy}>
+  return (
+    <SortableContext id={id} items={column.cards} strategy={verticalListSortingStrategy}>
 
-            <div
-                ref={setNodeRef}
-                className={`column`}
-                key={index}
+      <div
+        ref={setNodeRef}
+        className={`column`}
+        key={index}
+      >
+        <input
+          type="text"
+          value={column.title}
+          onChange={(event) => onTitleChange(event.target.value, index)}
+        />
+        {
+          column.cards.map((card: ICard) => (
+            <Card
+              key={card.id}
+              id={card.id}
+              title={card.text}
             >
-                <input
-                    type="text"
-                    value={column.title}
-                    onChange={(event) => onTitleChange(event.target.value, index)}
-                />
-                {
-                    column.cards.map((card: ICard) => (
-                        <Card
-                            key={card.id}
-                            id={card.id}
-                            title={card.text}
-                        >
-                        </Card>
-                    ))
+            </Card>
+          ))
 
-                }
+        }
 
-            </div>
-        </SortableContext>
+      </div>
+    </SortableContext>
 
-    )
+  )
 }
