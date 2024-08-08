@@ -1,10 +1,10 @@
 export interface ICard {
-    id: number
+    id: string
     text: string
 }
 
 export interface IColumn {
-    id: number,
+    id: string
     title: string
     cards: ICard[]
 }

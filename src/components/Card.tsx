@@ -17,13 +17,14 @@ export const Card = ({id, title}) => {
     return (
         <div
             ref={setNodeRef}
+            {...attributes}
+            {...listeners}
             style={style}
             className={`card`}
             key={id}
-            {...attributes}
-            {...listeners}
+            id={id}
         >
-            {title}
+                {title}
         </div>
     )
 }
