@@ -1,4 +1,4 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import {IColumn} from "../interfaces.ts";
 import {arrayMove, sortableKeyboardCoordinates} from "@dnd-kit/sortable";
 import {
@@ -11,21 +11,56 @@ import {
   useSensors
 } from "@dnd-kit/core";
 import {Column} from "./Column.tsx";
+import {v4 as uuidv4} from 'uuid';
+
+
+// @ts-ignore
+export const BoardContext = React.createContext();
 
 export function Board() {
   const [columns, setColumns] = useState<IColumn[]>([
-    {id: "a", title: "Column 1", cards: [{id: "1", text: "Card 1"}, {id: "2", text: "Card 2"}]},
-    {id: "b", title: "Column 2", cards: [{id: "3", text: "Card 3"}, {id: "4", text: "Card 4"}]},
-    {id: "c", title: "Column 3", cards: [{id: "5", text: "Card 5"}, {id: "6", text: "Card 6"}]},
+    {id: uuidv4(), title: "Column 1", cards: [{id: uuidv4(), text: "Card 1"}, {id: uuidv4(), text: "Card 2"}]},
+    {id: uuidv4(), title: "Column 2", cards: [{id: uuidv4(), text: "Card 1"}, {id: uuidv4(), text: "Card 2"}]},
+    {id: uuidv4(), title: "Column 3", cards: [{id: uuidv4(), text: "Card 1"}, {id: uuidv4(), text: "Card 2"}]},
   ])
+  const [lastId, setLastId] = useState(6)
 
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const addCard = (column, index) => {
+    const newCard = {id: uuidv4() , text: ``, placeholder: `Write something...`}
+    const newColumns = [...columns]
+    newColumns[index].cards.push(newCard)
+    setColumns(newColumns)
+    setLastId(lastId + 1)
+  }
+
+  const onEditCard = (id, text) => {
+    const newColumns = columns.map(column => {
+      column.cards = column.cards.map(card => {
+        if (card.id === id) {
+          card.text = text
+        }
+        return card
+      })
+      return column
+    })
+    setColumns(newColumns)
+  }
 
   const addColumns = () => {
-    const id = columns.length + 1
+    const id = uuidv4()
     setColumns([...columns, {
-      id: id.toString(),
-      title: `Column ${id}`,
-      cards: []
+      id: id,
+      title: ``,
+      cards: [],
+      placeholder: 'Write something...'
     }])
   }
 
@@ -34,13 +69,6 @@ export function Board() {
     newColumns[index].title = title
     setColumns(newColumns)
   }
-
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
 
   const findColumn = (unique: string | null) => {
     if (!unique) {
@@ -120,6 +148,7 @@ export function Board() {
       });
     }
   };
+
   return (
     <>
       <DndContext
@@ -129,18 +158,20 @@ export function Board() {
         onDragEnd={handleDragEnd}
       >
         <div className={"container"}>
-          <div className={"columns-container"}>
-            {
-              columns.map((column: IColumn, index) => (
-                <Column
-                  id={column.id}
-                  key={column.id}
-                  column={column}
-                  index={index}
-                  onTitleChange={setTitle}>
-                </Column>
-              ))
-            }
+            <div className={"columns-container"}>
+              {
+                columns.map((column: IColumn, index) => (
+                  <Column
+                    id={column.id}
+                    key={column.id}
+                    column={column}
+                    index={index}
+                    onTitleChange={setTitle}
+                    onAddCard={addCard}
+                    onEditCard={onEditCard}>
+                  </Column>
+                ))
+              }
           </div>
           <button className={"add-column-button"} onClick={addColumns}>Add column</button>
         </div>

@@ -6,6 +6,7 @@
 
 .add-column-button {
   float: right;
+  cursor: pointer;
 }
 
 .container {
