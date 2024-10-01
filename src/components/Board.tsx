@@ -64,9 +64,14 @@ export function Board() {
     }])
   }
 
-  const setTitle = (title: string, index: number) => {
-    const newColumns = [...columns]
-    newColumns[index].title = title
+  const setTitle = (id: string, text: string) => {
+    const newColumns = columns.map(column => {
+        if (column.id === id) {
+          column.title = text
+        }
+  
+      return column
+    })
     setColumns(newColumns)
   }
 

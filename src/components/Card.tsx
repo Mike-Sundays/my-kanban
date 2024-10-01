@@ -1,10 +1,8 @@
 import {useSortable} from "@dnd-kit/sortable";
 import {CSS} from "@dnd-kit/utilities";
-import { useRef, useEffect } from "react";
+import { CustomInput } from "./CustomInput";
 
-export const Card = ({id, text, placeholder, onEditCard}) => {
-  const inputRef = useRef(null)
-  
+export const Card = ({id, text, placeholder, onEditCard}) => {  
   const {
     attributes,
     listeners,
@@ -18,9 +16,6 @@ export const Card = ({id, text, placeholder, onEditCard}) => {
     transition,
   }
 
-  useEffect(() => {
-    inputRef.current.focus();  
-  }, []); // Empty dependency array means this runs only once on mount
 
   return (
     <div
@@ -30,15 +25,11 @@ export const Card = ({id, text, placeholder, onEditCard}) => {
       key={id}
       id={id}
     >
-      <input
-        ref={inputRef}
-        className="card-text-input"
-        type="text"
-        value={text}
+      <CustomInput
+        id={id}
+        text={text}
         placeholder={placeholder}
-        onChange={(event) => {
-          onEditCard(id, event.target.value)
-        }}
+        onChange={onEditCard}
       />
       <button className={`dragger`} {...listeners} {...attributes}></button>
 

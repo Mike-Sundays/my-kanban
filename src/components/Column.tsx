@@ -3,17 +3,11 @@ import {ICard} from "../interfaces.ts";
 import {Card} from "./Card.tsx";
 import {useDroppable} from "@dnd-kit/core";
 import {useRef, useEffect} from "react"
+import { CustomInput } from "./CustomInput.tsx";
 
 export function Column({id, column, index, onTitleChange, onAddCard, onEditCard}) {
 
   const {setNodeRef} = useDroppable({id: column.id});
-
-  const inputRef = useRef(null)
-
-  useEffect(() => {
-    inputRef.current.focus();  
-  }, []); // Empty dependency array means this runs only once on mount
-
 
   return (
     <>
@@ -23,14 +17,16 @@ export function Column({id, column, index, onTitleChange, onAddCard, onEditCard}
           ref={setNodeRef}
           className={`column`}
           key={index}
+          id={id}
         >
-          <input
-            ref={inputRef}
-            type="text"
-            value={column.title}
+          <CustomInput
+            id={id}
+            text={column.title}
             placeholder={column.placeholder}
-            onChange={(event) => onTitleChange(event.target.value, index)}
-          />
+            onChange={onTitleChange}
+          >
+          </CustomInput>
+
           {column.cards.map((card: ICard) => (
             <Card
               key={card.id}
