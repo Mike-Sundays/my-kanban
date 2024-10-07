@@ -9,10 +9,6 @@
   cursor: pointer;
 }
 
-.container {
-  width: fit-content;
-}
-
 .columns-container {
   display: flex;
   padding: 2px;

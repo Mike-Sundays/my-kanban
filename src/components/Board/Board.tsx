@@ -1,6 +1,5 @@
-import React, {useState} from "react";
-import {IColumn} from "../interfaces.ts";
-import {arrayMove, sortableKeyboardCoordinates} from "@dnd-kit/sortable";
+import React, { useState } from "react";
+import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import {
   closestCorners,
   DndContext,
@@ -10,18 +9,36 @@ import {
   useSensor,
   useSensors
 } from "@dnd-kit/core";
-import {Column} from "./Column.tsx";
-import {v4 as uuidv4} from 'uuid';
-
+import { Column } from "../Column/Column.tsx";
+import { v4 as uuidv4 } from 'uuid';
+import './Board.css'
+import { IColumn } from "../../models/IColumn.ts";
 
 // @ts-ignore
 export const BoardContext = React.createContext();
 
+const TEXT_PLACEHOLDER = "Write something..."
+
 export function Board() {
   const [columns, setColumns] = useState<IColumn[]>([
-    {id: uuidv4(), title: "Column 1", cards: [{id: uuidv4(), text: "Card 1"}, {id: uuidv4(), text: "Card 2"}]},
-    {id: uuidv4(), title: "Column 2", cards: [{id: uuidv4(), text: "Card 1"}, {id: uuidv4(), text: "Card 2"}]},
-    {id: uuidv4(), title: "Column 3", cards: [{id: uuidv4(), text: "Card 1"}, {id: uuidv4(), text: "Card 2"}]},
+    {
+      id: uuidv4(), title: "Column 1", cards: [
+        { id: uuidv4(), text: "Card 1"},
+        { id: uuidv4(), text: "Card 2"}
+      ]
+    },
+    {
+      id: uuidv4(), title: "Column 2", cards: [
+        { id: uuidv4(), text: "Card 1"},
+        { id: uuidv4(), text: "Card 2"}
+      ]
+    },
+    {
+      id: uuidv4(), title: "Column 3", cards: [
+        { id: uuidv4(), text: "Card 1"},
+        { id: uuidv4(), text: "Card 2"}
+      ]
+    },
   ])
   const [lastId, setLastId] = useState(6)
 
@@ -33,15 +50,15 @@ export function Board() {
     })
   );
 
-  const addCard = (column, index) => {
-    const newCard = {id: uuidv4() , text: ``, placeholder: `Write something...`}
+  const addCard = (index: number) => {
+    const newCard = { id: uuidv4(), text: ``, placeholder: TEXT_PLACEHOLDER }
     const newColumns = [...columns]
     newColumns[index].cards.push(newCard)
     setColumns(newColumns)
     setLastId(lastId + 1)
   }
 
-  const onEditCard = (id, text) => {
+  const onEditCard = (id: string, text: string) => {
     const newColumns = columns.map(column => {
       column.cards = column.cards.map(card => {
         if (card.id === id) {
@@ -60,16 +77,16 @@ export function Board() {
       id: id,
       title: ``,
       cards: [],
-      placeholder: 'Write something...'
+      placeholder: TEXT_PLACEHOLDER
     }])
   }
 
   const setTitle = (id: string, text: string) => {
     const newColumns = columns.map(column => {
-        if (column.id === id) {
-          column.title = text
-        }
-  
+      if (column.id === id) {
+        column.title = text
+      }
+
       return column
     })
     setColumns(newColumns)
@@ -85,14 +102,14 @@ export function Board() {
     const id = String(unique);
     const itemWithColumnId = columns.flatMap((c) => {
       const columnId = c.id;
-      return c.cards.map((i) => ({itemId: i.id, columnId: columnId}));
+      return c.cards.map((i) => ({ itemId: i.id, columnId: columnId }));
     });
     const columnId = itemWithColumnId.find((i) => i.itemId === id)?.columnId;
     return columns.find((c) => c.id === columnId) ?? null;
   };
 
   const handleDragOver = (event: DragOverEvent) => {
-    const {active, over, delta} = event;
+    const { active, over, delta } = event;
     const activeId = String(active.id);
     const overId = over ? String(over.id) : null;
     const activeColumn = findColumn(activeId);
@@ -130,7 +147,7 @@ export function Board() {
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
-    const {active, over} = event;
+    const { active, over } = event;
     const activeId = String(active.id);
     const overId = over ? String(over.id) : null;
     const activeColumn = findColumn(activeId);
@@ -163,20 +180,20 @@ export function Board() {
         onDragEnd={handleDragEnd}
       >
         <div className={"container"}>
-            <div className={"columns-container"}>
-              {
-                columns.map((column: IColumn, index) => (
-                  <Column
-                    id={column.id}
-                    key={column.id}
-                    column={column}
-                    index={index}
-                    onTitleChange={setTitle}
-                    onAddCard={addCard}
-                    onEditCard={onEditCard}>
-                  </Column>
-                ))
-              }
+          <div className={"columns-container"}>
+            {
+              columns.map((column: IColumn, index) => (
+                <Column
+                  id={column.id}
+                  key={column.id}
+                  column={column}
+                  index={index}
+                  onTitleChange={setTitle}
+                  onAddCard={addCard}
+                  onEditCard={onEditCard}>
+                </Column>
+              ))
+            }
           </div>
           <button className={"add-column-button"} onClick={addColumns}>Add column</button>
         </div>

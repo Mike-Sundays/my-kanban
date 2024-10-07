@@ -1,11 +1,19 @@
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
-import {ICard} from "../interfaces.ts";
-import {Card} from "./Card.tsx";
+import {ICard} from "../../models/ICard.ts";
+import {Card} from "../Card/Card.tsx";
 import {useDroppable} from "@dnd-kit/core";
-import {useRef, useEffect} from "react"
-import { CustomInput } from "./CustomInput.tsx";
+import { CustomInput } from "../CustomInput/CustomInput.tsx";
+import { IColumn } from "../../models/IColumn.ts";
 
-export function Column({id, column, index, onTitleChange, onAddCard, onEditCard}) {
+interface ColumnProps {
+  id: string
+  column: IColumn, 
+  index: number,
+  onTitleChange: Function
+  onAddCard: Function
+  onEditCard: Function
+}
+export function Column({id, column, index, onTitleChange, onAddCard, onEditCard} : ColumnProps) {
 
   const {setNodeRef} = useDroppable({id: column.id});
 
@@ -37,7 +45,7 @@ export function Column({id, column, index, onTitleChange, onAddCard, onEditCard}
             >
             </Card>
           ))}
-          <button className={"add-card"} onClick={(event) => onAddCard(column, index)}>Add a card</button>
+          <button className={"add-card"} onClick={(event) => onAddCard(index)}>Add a card</button>
         </div>
       </SortableContext>
     </>
