@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import {
   closestCorners,
@@ -10,36 +10,17 @@ import {
   useSensors
 } from "@dnd-kit/core";
 import { Column } from "../Column/Column.tsx";
-import { v4 as uuidv4 } from 'uuid';
 import './Board.css'
+import { v4 as uuidv4 } from 'uuid';
 import { IColumn } from "../../models/IColumn.ts";
-
-// @ts-ignore
-export const BoardContext = React.createContext();
+import { DEFAULT_COLUMNS } from "./default-columns.ts";
+import { ColumnsContext } from "./columns-context.ts";
 
 const TEXT_PLACEHOLDER = "Write something..."
 
 export function Board() {
-  const [columns, setColumns] = useState<IColumn[]>([
-    {
-      id: uuidv4(), title: "Column 1", cards: [
-        { id: uuidv4(), text: "Card 1"},
-        { id: uuidv4(), text: "Card 2"}
-      ]
-    },
-    {
-      id: uuidv4(), title: "Column 2", cards: [
-        { id: uuidv4(), text: "Card 1"},
-        { id: uuidv4(), text: "Card 2"}
-      ]
-    },
-    {
-      id: uuidv4(), title: "Column 3", cards: [
-        { id: uuidv4(), text: "Card 1"},
-        { id: uuidv4(), text: "Card 2"}
-      ]
-    },
-  ])
+
+  const [columns, setColumns] = useState<IColumn[]>(DEFAULT_COLUMNS)
   const [lastId, setLastId] = useState(6)
 
 
@@ -179,24 +160,24 @@ export function Board() {
         onDragOver={handleDragOver}
         onDragEnd={handleDragEnd}
       >
-        <div className={"container"}>
-          <div className={"columns-container"}>
-            {
-              columns.map((column: IColumn, index) => (
-                <Column
-                  id={column.id}
-                  key={column.id}
-                  column={column}
-                  index={index}
-                  onTitleChange={setTitle}
-                  onAddCard={addCard}
-                  onEditCard={onEditCard}>
-                </Column>
-              ))
-            }
+        <ColumnsContext.Provider value={columns}>
+          <div className={"container"}>
+            <div className={"columns-container"}>
+              {
+                columns.map((column, index) => (
+                  <Column
+                    key={column.id}
+                    index={index}
+                    onTitleChange={setTitle}
+                    onAddCard={addCard}
+                    onEditCard={onEditCard}>
+                  </Column>
+                ))
+              }
+            </div>
+            <button className={"add-column-button"} onClick={addColumns}>Add column</button>
           </div>
-          <button className={"add-column-button"} onClick={addColumns}>Add column</button>
-        </div>
+        </ColumnsContext.Provider>
       </DndContext>
 
     </>

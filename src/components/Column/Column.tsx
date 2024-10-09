@@ -4,31 +4,33 @@ import {Card} from "../Card/Card.tsx";
 import {useDroppable} from "@dnd-kit/core";
 import { CustomInput } from "../CustomInput/CustomInput.tsx";
 import { IColumn } from "../../models/IColumn.ts";
+import { useContext } from "react";
+import { ColumnsContext } from "../Board/columns-context.ts";
 
 interface ColumnProps {
-  id: string
-  column: IColumn, 
   index: number,
   onTitleChange: Function
   onAddCard: Function
   onEditCard: Function
 }
-export function Column({id, column, index, onTitleChange, onAddCard, onEditCard} : ColumnProps) {
+export function Column({index, onTitleChange, onAddCard, onEditCard} : ColumnProps) {
 
+  const columns: IColumn[] = useContext(ColumnsContext)
+  const column: IColumn = columns[index]
+  
   const {setNodeRef} = useDroppable({id: column.id});
 
   return (
     <>
-      <SortableContext id={id} items={column.cards} strategy={verticalListSortingStrategy}>
-
+      <SortableContext id={column.id} items={column.cards} strategy={verticalListSortingStrategy}>
         <div
           ref={setNodeRef}
           className={`column`}
           key={index}
-          id={id}
+          id={column.id}
         >
           <CustomInput
-            id={id}
+            id={column.id}
             text={column.title}
             placeholder={column.placeholder}
             onChange={onTitleChange}
