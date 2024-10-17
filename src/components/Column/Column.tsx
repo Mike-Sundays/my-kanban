@@ -5,20 +5,43 @@ import {useDroppable} from "@dnd-kit/core";
 import { CustomInput } from "../CustomInput/CustomInput.tsx";
 import { IColumn } from "../../models/IColumn.ts";
 import { useContext } from "react";
-import { ColumnsContext } from "../Board/columns-context.ts";
+import { ColumnsDispatchContext } from "../../shared/columns-context.ts";
+import { TEXT_PLACEHOLDER } from "../../shared/constants.ts";
+import { v4 as uuidv4 } from 'uuid';
+import { ColumnActionsType } from "../../shared/column-actions.ts"
 
 interface ColumnProps {
+  column: IColumn
   index: number,
-  onTitleChange: Function
-  onAddCard: Function
-  onEditCard: Function
 }
-export function Column({index, onTitleChange, onAddCard, onEditCard} : ColumnProps) {
 
-  const columns: IColumn[] = useContext(ColumnsContext)
-  const column: IColumn = columns[index]
+export function Column({column, index} : ColumnProps) {
+
+  const dispatch = useContext(ColumnsDispatchContext)
   
   const {setNodeRef} = useDroppable({id: column.id});
+
+  const onAddCard = (index: number) => {
+    dispatch({
+      type: ColumnActionsType.ADD_CARD,
+      payload: {
+        id: uuidv4(),
+        text: ``,
+        placeholder: TEXT_PLACEHOLDER,
+        index
+      }
+    });
+  }
+
+  const setTitle = (id: string, text: string) => {
+    dispatch({
+      type: ColumnActionsType.SET_COLUMN_TITLE,
+      payload: {
+        id: id,
+        text: text,
+      }
+    });
+  }
 
   return (
     <>
@@ -30,10 +53,10 @@ export function Column({index, onTitleChange, onAddCard, onEditCard} : ColumnPro
           id={column.id}
         >
           <CustomInput
-            id={column.id}
+            cardId={column.id}
             text={column.title}
             placeholder={column.placeholder}
-            onChange={onTitleChange}
+            onChange={setTitle}
           >
           </CustomInput>
 
@@ -43,11 +66,10 @@ export function Column({index, onTitleChange, onAddCard, onEditCard} : ColumnPro
               id={card.id}
               text={card.text}
               placeholder={card.placeholder}
-              onEditCard={onEditCard}
             >
             </Card>
           ))}
-          <button className={"add-card"} onClick={(event) => onAddCard(index)}>Add a card</button>
+          <button className={"add-card"} onClick={(_) => onAddCard(index)}>Add a card</button>
         </div>
       </SortableContext>
     </>

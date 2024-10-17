@@ -2,13 +2,13 @@ import { useRef, useEffect } from "react";
 import './CustomInput.css'
 
 interface CustomInputProps {
-    id: string,
+    cardId: string,
     text: string,
     placeholder?: string,
     onChange: Function
 }
 
-export const CustomInput = ({ id, text, placeholder, onChange }: CustomInputProps) => {
+export const CustomInput = ({ cardId: id, text, placeholder, onChange }: CustomInputProps) => {
     const ENTER = "Enter"
     const ESCAPE = "Escape"
     

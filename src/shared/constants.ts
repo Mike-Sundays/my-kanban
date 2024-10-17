@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { IColumn } from '../../models/IColumn';
+import { IColumn } from './models/IColumn';
 
 export const DEFAULT_COLUMNS: IColumn[] = [
     {
@@ -21,3 +21,5 @@ export const DEFAULT_COLUMNS: IColumn[] = [
       ]
     },
 ]
+
+export const TEXT_PLACEHOLDER = "Write something..."

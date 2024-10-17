@@ -2,15 +2,17 @@ import {useSortable} from "@dnd-kit/sortable";
 import {CSS} from "@dnd-kit/utilities";
 import { CustomInput } from "../CustomInput/CustomInput";
 import './Card.css'
+import { ColumnsDispatchContext } from "../../shared/columns-context";
+import { useContext } from "react";
+import { ColumnActionsType } from "../../shared/column-actions";
 
 interface CardProps {
   id: string,
   text: string,
   placeholder?: string,
-  onEditCard: Function
 }
 
-export const Card = ({id, text, placeholder, onEditCard}: CardProps) => {  
+export const Card = ({id, text, placeholder}: CardProps) => {  
   const {
     attributes,
     listeners,
@@ -18,6 +20,19 @@ export const Card = ({id, text, placeholder, onEditCard}: CardProps) => {
     transform,
     transition,
   } = useSortable({id})
+  const dispatch = useContext(ColumnsDispatchContext)
+
+
+  const onEditCard = (id: string, text: string) => {
+    dispatch({
+      type: ColumnActionsType.EDIT_CARD,
+      payload: {
+        id: id,
+        text: text
+      },
+    });
+
+  }
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -34,7 +49,7 @@ export const Card = ({id, text, placeholder, onEditCard}: CardProps) => {
       id={id}
     >
       <CustomInput
-        id={id}
+        cardId={id}
         text={text}
         placeholder={placeholder}
         onChange={onEditCard}
