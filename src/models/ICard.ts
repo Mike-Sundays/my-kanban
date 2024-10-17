@@ -1,6 +1,5 @@
 export interface ICard {
-    id: string
-    text: string
-    placeholder?: string
+  id: string;
+  text: string;
+  placeholder?: string;
 }
-

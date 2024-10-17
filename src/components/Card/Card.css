@@ -1,19 +1,19 @@
 .dragger {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    /* Button is below input */
-    background-color: transparent;
-    /* Make sure it's transparent to not obscure the input */
-    border: none;
-    /* Remove default button border */
-    cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  /* Button is below input */
+  background-color: transparent;
+  /* Make sure it's transparent to not obscure the input */
+  border: none;
+  /* Remove default button border */
+  cursor: pointer;
 }
 
 .card {
-    padding: 2em;
-    position: relative;
+  padding: 2em;
+  position: relative;
 }

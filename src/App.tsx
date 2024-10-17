@@ -1,10 +1,8 @@
-import './App.css'
-import {Board} from "./components/Board/Board.tsx";
+import "./App.css";
+import { Board } from "./components/Board/Board.tsx";
 
 function App() {
-    return (
-            <Board/>
-    )
+  return <Board />;
 }
 
-export default App
+export default App;
