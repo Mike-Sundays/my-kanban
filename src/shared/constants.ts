@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import { IColumn } from "./models/IColumn";
+import { IBoard } from "../models/IBoard";
 
 export const DEFAULT_COLUMNS: IColumn[] = [
   {
@@ -29,3 +30,4 @@ export const DEFAULT_COLUMNS: IColumn[] = [
 ];
 
 export const TEXT_PLACEHOLDER = "Write something...";
+export const LOCAL_STORAGE_KEY = "Columns"
