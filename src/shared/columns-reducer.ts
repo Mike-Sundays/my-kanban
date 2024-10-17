@@ -1,5 +1,5 @@
 import { arrayMove } from "@dnd-kit/sortable";
-import { IColumn } from "./models/IColumn";
+import { IColumn } from "../models/IColumn"
 import { ColumnActionsType } from "./column-actions";
 
 interface ColumnAction {
