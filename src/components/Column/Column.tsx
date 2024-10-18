@@ -54,10 +54,11 @@ export function Column({ column, index }: ColumnProps) {
       >
         <div ref={setNodeRef} className={`column`} key={index} id={column.id}>
           <CustomInput
-            cardId={column.id}
+            id={column.id}
             text={column.title}
             placeholder={column.placeholder}
             onChange={setTitle}
+            location="column-title"
           ></CustomInput>
 
           {column.cards.map((card: ICard) => (

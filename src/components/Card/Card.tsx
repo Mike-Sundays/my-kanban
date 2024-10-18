@@ -35,10 +35,11 @@ export const Card = ({ id, text, placeholder }: CardProps) => {
   return (
     <div ref={setNodeRef} style={style} className={`card`} key={id} id={id}>
       <CustomInput
-        cardId={id}
+        id={id}
         text={text}
         placeholder={placeholder}
         onChange={onEditCard}
+        location="card-text"
       />
       <button className={`dragger`} {...listeners} {...attributes}></button>
     </div>

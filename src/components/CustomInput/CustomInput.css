@@ -10,3 +10,14 @@
 .card-text-input::placeholder {
   color: gray;
 }
+
+.board-title-input {
+  font-size: large;
+  border: none;
+  outline: none;
+  margin: 10px;
+}
+
+.column-title-input {
+  padding: 5px;
+}

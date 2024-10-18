@@ -2,17 +2,19 @@ import { useRef, useEffect } from "react";
 import "./CustomInput.css";
 
 interface CustomInputProps {
-  cardId: string;
+  id: string;
   text: string;
   placeholder?: string;
   onChange: Function;
+  location: string;
 }
 
 export const CustomInput = ({
-  cardId: id,
+  id,
   text,
   placeholder,
   onChange,
+  location
 }: CustomInputProps) => {
   const ENTER = "Enter";
   const ESCAPE = "Escape";
@@ -32,7 +34,7 @@ export const CustomInput = ({
   return (
     <input
       ref={inputRef}
-      className="card-text-input"
+      className={`${location}-input`}
       type="text"
       value={text}
       placeholder={placeholder}

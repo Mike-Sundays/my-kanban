@@ -10,3 +10,8 @@
 .add-card {
   cursor: pointer;
 }
+
+.title-input {
+  font-size: large;
+  font-weight: 400;
+}

@@ -1,15 +1,11 @@
 import { arrayMove } from "@dnd-kit/sortable";
-import { IColumn } from "../models/IColumn"
+import { IColumn } from "../models/IColumn";
 import { ColumnActionsType } from "./column-actions";
-
-interface ColumnAction {
-  type: string;
-  payload: any;
-}
+import { IAction } from "./IAction";
 
 export default function columnsReducer(
   columns: IColumn[],
-  action: ColumnAction,
+  action: IAction,
 ): IColumn[] {
   switch (action.type) {
     case ColumnActionsType.ADD_CARD: {
