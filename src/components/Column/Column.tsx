@@ -12,6 +12,7 @@ import { ColumnsDispatchContext } from "../../shared/columns-context.ts";
 import { TEXT_PLACEHOLDER } from "../../shared/constants.ts";
 import { v4 as uuidv4 } from "uuid";
 import { ColumnActionsType } from "../../shared/column-actions.ts";
+import "./Column.css";
 
 interface ColumnProps {
   column: IColumn;

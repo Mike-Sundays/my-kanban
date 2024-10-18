@@ -7,6 +7,12 @@
   padding: 2px;
 }
 
+.columns-container {
+  display: flex;
+  padding: 2px;
+}
+
+
 .add-card {
   cursor: pointer;
 }
@@ -14,4 +20,9 @@
 .title-input {
   font-size: large;
   font-weight: 400;
+}
+
+.add-column-button {
+  float: right;
+  cursor: pointer;
 }
