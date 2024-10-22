@@ -12,7 +12,6 @@ import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import { useReducer, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Column } from "../Column/Column.tsx";
-import "./Board.css";
 import { ColumnsDispatchContext } from "../../shared/columns-context.ts";
 import columnsReducer from "../../shared/columns-reducer.ts";
 import {
@@ -26,11 +25,10 @@ import { ColumnActionsType } from "../../shared/column-actions.ts";
 import { IColumn } from "../../models/IColumn.ts";
 import boardReducer from "../../shared/board-reducer.ts";
 import { BoardActionsType } from "../../shared/board-actions.ts";
-import { CustomInput } from "../CustomInput/CustomInput.tsx";
+import { CustomInput, InputTypes } from "../CustomInput/CustomInput.tsx";
 
 export function Board() {
-  
-  const BOARD_TITLE_PLACEHOLDER = "Title your board..."
+  const BOARD_TITLE_PLACEHOLDER = "Title your board...";
   // @ts-ignore
   // prettier-ignore
   const initialColumnsValue: IColumn[] = JSON.parse(localStorage.getItem(LOCAL_STORAGE_COLUMNS_KEY)) || DEFAULT_COLUMNS;
@@ -62,7 +60,7 @@ export function Board() {
   }, [board]);
 
   const addColumns = () => {
-    const columnId = uuidv4()
+    const columnId = uuidv4();
     columnsDispatch({
       type: ColumnActionsType.ADD_COLUMN,
       payload: {
@@ -76,7 +74,7 @@ export function Board() {
       payload: {
         id: columnId,
       },
-    })
+    });
   };
 
   const setTitle = (id: string, text: string) => {
@@ -123,22 +121,22 @@ export function Board() {
         onDragEnd={handleDragEnd}
       >
         <ColumnsDispatchContext.Provider value={columnsDispatch}>
-          <div className={"container"}>
-            <CustomInput
-              id={board.id}
-              text={board.title}
-              placeholder={BOARD_TITLE_PLACEHOLDER}
-              onChange={setTitle}
-              location="board-title"
-            ></CustomInput>
-            <div className={"columns-container"}>
+          <div className="w-fit">
+            <div className="flex justify-between mr-4">
+              <CustomInput
+                id={board.id}
+                text={board.title}
+                placeholder={BOARD_TITLE_PLACEHOLDER}
+                onChange={setTitle}
+                type={InputTypes.BOARD_TITLE}
+              ></CustomInput>
+              <button className="font-bold text-white float-right cursor-pointer" onClick={addColumns}>+ Column</button>
+            </div>
+            <div className="flex p-0.5">
               {columns.map((column, index) => (
                 <Column key={column.id} column={column} index={index}></Column>
               ))}
             </div>
-            <button className={"add-column-button"} onClick={addColumns}>
-              Add column
-            </button>
           </div>
         </ColumnsDispatchContext.Provider>
       </DndContext>

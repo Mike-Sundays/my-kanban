@@ -5,14 +5,13 @@ import {
 import { ICard } from "../../models/ICard.ts";
 import { Card } from "../Card/Card.tsx";
 import { useDroppable } from "@dnd-kit/core";
-import { CustomInput } from "../CustomInput/CustomInput.tsx";
+import { CustomInput, InputTypes } from "../CustomInput/CustomInput.tsx";
 import { IColumn } from "../../models/IColumn.ts";
 import { useContext } from "react";
 import { ColumnsDispatchContext } from "../../shared/columns-context.ts";
 import { TEXT_PLACEHOLDER } from "../../shared/constants.ts";
 import { v4 as uuidv4 } from "uuid";
 import { ColumnActionsType } from "../../shared/column-actions.ts";
-import "./Column.css";
 
 interface ColumnProps {
   column: IColumn;
@@ -53,13 +52,18 @@ export function Column({ column, index }: ColumnProps) {
         items={column.cards}
         strategy={verticalListSortingStrategy}
       >
-        <div ref={setNodeRef} className={`column`} key={index} id={column.id}>
+        <div
+          ref={setNodeRef}
+          className="border mx-2 border-black border-solid rounded-xl bg-gray-300 flex flex-col "
+          key={index}
+          id={column.id}
+        >
           <CustomInput
             id={column.id}
             text={column.title}
             placeholder={column.placeholder}
             onChange={setTitle}
-            location="column-title"
+            type={InputTypes.COLUMN_TITLE}
           ></CustomInput>
 
           {column.cards.map((card: ICard) => (
@@ -70,8 +74,8 @@ export function Column({ column, index }: ColumnProps) {
               placeholder={card.placeholder}
             ></Card>
           ))}
-          <button className={"add-card"} onClick={(_) => onAddCard(index)}>
-            Add a card
+          <button className="cursor-ponter my-2" onClick={(_) => onAddCard(index)}>
+            + Add a card
           </button>
         </div>
       </SortableContext>

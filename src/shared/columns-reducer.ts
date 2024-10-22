@@ -1,7 +1,7 @@
 import { arrayMove } from "@dnd-kit/sortable";
 import { IColumn } from "../models/IColumn";
 import { ColumnActionsType } from "./column-actions";
-import { IAction } from "./IAction";
+import { IAction } from "../models/IAction";
 
 export default function columnsReducer(
   columns: IColumn[],

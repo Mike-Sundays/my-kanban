@@ -1,12 +1,17 @@
 import { useRef, useEffect } from "react";
-import "./CustomInput.css";
 
 interface CustomInputProps {
   id: string;
   text: string;
   placeholder?: string;
   onChange: Function;
-  location: string;
+  type: string;
+}
+
+export enum InputTypes {
+  CARD_TEXT = "card-text",
+  BOARD_TITLE = "board-title",
+  COLUMN_TITLE = "column-title",
 }
 
 export const CustomInput = ({
@@ -14,7 +19,7 @@ export const CustomInput = ({
   text,
   placeholder,
   onChange,
-  location
+  type: location,
 }: CustomInputProps) => {
   const ENTER = "Enter";
   const ESCAPE = "Escape";
@@ -34,7 +39,7 @@ export const CustomInput = ({
   return (
     <input
       ref={inputRef}
-      className={`${location}-input`}
+      className={cssClass(location)}
       type="text"
       value={text}
       placeholder={placeholder}
@@ -46,4 +51,17 @@ export const CustomInput = ({
       }}
     />
   );
+};
+
+const cssClass = (location: string): string => {
+  switch (location) {
+    case InputTypes.CARD_TEXT:
+      return "placeholder:text-gray-400 relative z-10 bg-transparent border-none outline-none";
+    case InputTypes.BOARD_TITLE:
+      return "text-2xl text-gray-200 border-none outline-none m-2.5 font-bold bg-slate-700";
+    case InputTypes.COLUMN_TITLE:
+      return "mt-2 mb-1 mx-2.5 bg-transparent focus:bg-white px-1 font-bold";
+    default:
+      return "";
+  }
 };
