@@ -1,10 +1,12 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useContext } from "react";
+import { ENTER, ESCAPE } from "../../shared/constants";
 
 interface CustomInputProps {
-  id: string;
+  parentId: string;
   text: string;
   placeholder?: string;
   onChange: Function;
+  onBlur?: Function;
   type: string;
 }
 
@@ -15,36 +17,40 @@ export enum InputTypes {
 }
 
 export const CustomInput = ({
-  id,
+  parentId,
   text,
   placeholder,
   onChange,
-  type: location,
+  onBlur = () => {},
+  type,
 }: CustomInputProps) => {
-  const ENTER = "Enter";
-  const ESCAPE = "Escape";
 
   const inputRef: React.Ref<any> = useRef(null);
 
   useEffect(() => {
-    inputRef.current?.focus();
+    if(text === ''){
+      inputRef.current?.focus();
+    }
   }, []); // Empty dependency array means this runs only once on mount
 
   const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === ENTER || event.key === ESCAPE) {
+    if ( event.key === ESCAPE) {
       inputRef.current?.blur();
+    } else if(event.key === ENTER){
+      inputRef.current?.blur();
+      onBlur()
     }
   };
 
   return (
     <input
       ref={inputRef}
-      className={cssClass(location)}
+      className={cssClass(type)}
       type="text"
       value={text}
       placeholder={placeholder}
       onChange={(event) => {
-        onChange(id, event.target.value);
+        onChange(parentId, event.target.value);
       }}
       onKeyDown={(event) => {
         onKeyDown(event);
@@ -60,7 +66,7 @@ const cssClass = (location: string): string => {
     case InputTypes.BOARD_TITLE:
       return "text-2xl text-gray-200 border-none outline-none m-2.5 font-bold bg-slate-700";
     case InputTypes.COLUMN_TITLE:
-      return "mt-2 mb-1 mx-2.5 bg-transparent focus:bg-white px-1 font-bold";
+      return "mt-2 mb-1 mx-2.5 bg-transparent focus:bg-white px-1 placeholder:font-normal font-bold";
     default:
       return "";
   }

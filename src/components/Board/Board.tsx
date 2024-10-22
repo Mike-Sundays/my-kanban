@@ -113,7 +113,7 @@ export function Board() {
   };
 
   return (
-    <>
+    <div className="px-20 py-8 bg-slate-700 w-fit">
       <DndContext
         sensors={sensors}
         collisionDetection={closestCorners}
@@ -124,7 +124,7 @@ export function Board() {
           <div className="w-fit">
             <div className="flex justify-between mr-4">
               <CustomInput
-                id={board.id}
+                parentId={board.id}
                 text={board.title}
                 placeholder={BOARD_TITLE_PLACEHOLDER}
                 onChange={setTitle}
@@ -140,6 +140,6 @@ export function Board() {
           </div>
         </ColumnsDispatchContext.Provider>
       </DndContext>
-    </>
+    </div>
   );
 }

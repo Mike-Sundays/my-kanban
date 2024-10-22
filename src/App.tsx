@@ -1,10 +1,9 @@
 import { Board } from "./components/Board/Board.tsx";
 import './App.css'
 function App() {
+  localStorage.clear()
   return (
-    <div className="px-20 py-8 bg-slate-700">
       <Board />
-    </div>
   );
 }
 

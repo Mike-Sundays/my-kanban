@@ -45,6 +45,19 @@ export function Column({ column, index }: ColumnProps) {
     });
   };
 
+  const onBlurTitle = (event: Event) => {
+    dispatch({
+      type: ColumnActionsType.ADD_CARD,
+      payload: {
+        id: uuidv4(),
+        text: ``,
+        placeholder: TEXT_PLACEHOLDER,
+        index: index
+      },
+    });
+  };
+
+
   return (
     <>
       <SortableContext
@@ -54,15 +67,16 @@ export function Column({ column, index }: ColumnProps) {
       >
         <div
           ref={setNodeRef}
-          className="border mx-2 border-black border-solid rounded-xl bg-gray-300 flex flex-col "
+          className="border mx-2 border-black border-solid rounded-xl bg-gray-300 flex flex-col shadow h-fit"
           key={index}
           id={column.id}
         >
           <CustomInput
-            id={column.id}
+            parentId={column.id}
             text={column.title}
             placeholder={column.placeholder}
             onChange={setTitle}
+            onBlur={onBlurTitle}
             type={InputTypes.COLUMN_TITLE}
           ></CustomInput>
 
@@ -72,6 +86,7 @@ export function Column({ column, index }: ColumnProps) {
               id={card.id}
               text={card.text}
               placeholder={card.placeholder}
+              columnIndex={index}
             ></Card>
           ))}
           <button className="cursor-ponter my-2" onClick={(_) => onAddCard(index)}>

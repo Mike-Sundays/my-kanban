@@ -4,14 +4,18 @@ import { CustomInput, InputTypes } from "../CustomInput/CustomInput";
 import { ColumnsDispatchContext } from "../../shared/columns-context";
 import { useContext } from "react";
 import { ColumnActionsType } from "../../shared/column-actions";
+import { TEXT_PLACEHOLDER } from "../../shared/constants.ts";
+import { v4 as uuidv4 } from "uuid";
+import { ENTER } from "../../shared/constants";
 
 interface CardProps {
   id: string;
   text: string;
   placeholder?: string;
+  columnIndex: number;
 }
 
-export const Card = ({ id, text, placeholder }: CardProps) => {
+export const Card = ({ id, text, placeholder, columnIndex }: CardProps) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
   const dispatch = useContext(ColumnsDispatchContext);
@@ -25,6 +29,19 @@ export const Card = ({ id, text, placeholder }: CardProps) => {
       },
     });
   };
+
+  const onBlur = (event: Event) => {
+    dispatch({
+      type: ColumnActionsType.ADD_CARD,
+      payload: {
+        id: uuidv4(),
+        text: ``,
+        placeholder: TEXT_PLACEHOLDER,
+        index: columnIndex
+      },
+    });
+  };
+
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -40,10 +57,11 @@ export const Card = ({ id, text, placeholder }: CardProps) => {
       id={id}
     >
       <CustomInput
-        id={id}
+        parentId={id}
         text={text}
         placeholder={placeholder}
         onChange={onEditCard}
+        onBlur={onBlur}
         type={InputTypes.CARD_TEXT}
       />
       {/* Using the button as the draggable part of the card */}

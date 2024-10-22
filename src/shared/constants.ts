@@ -2,6 +2,8 @@ import { v4 as uuidv4 } from "uuid";
 import { IColumn } from "../models/IColumn";
 import { IBoard } from "../models/IBoard";
 
+export const ENTER = "Enter";
+export const ESCAPE = "Escape";
 export const DEFAULT_COLUMNS: IColumn[] = [
   {
     id: uuidv4(),
