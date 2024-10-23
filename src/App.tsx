@@ -1,7 +1,7 @@
 import { Board } from "./components/Board/Board.tsx";
 import './App.css'
 function App() {
-  localStorage.clear()
+  // localStorage.clear()
   return (
       <Board />
   );

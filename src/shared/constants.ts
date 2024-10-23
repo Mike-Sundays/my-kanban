@@ -7,7 +7,7 @@ export const ESCAPE = "Escape";
 export const DEFAULT_COLUMNS: IColumn[] = [
   {
     id: uuidv4(),
-    title: "Column 1",
+    title: "To Do",
     cards: [
       { id: uuidv4(), text: "1.a" },
       { id: uuidv4(), text: "1.b" },
@@ -15,7 +15,7 @@ export const DEFAULT_COLUMNS: IColumn[] = [
   },
   {
     id: uuidv4(),
-    title: "Column 2",
+    title: "Doing",
     cards: [
       { id: uuidv4(), text: "2.a" },
       { id: uuidv4(), text: "2.b" },
@@ -23,7 +23,7 @@ export const DEFAULT_COLUMNS: IColumn[] = [
   },
   {
     id: uuidv4(),
-    title: "Column 3",
+    title: "Done",
     cards: [
       { id: uuidv4(), text: "3.a" },
       { id: uuidv4(), text: "3.c" },

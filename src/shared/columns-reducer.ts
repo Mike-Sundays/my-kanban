@@ -2,6 +2,7 @@ import { arrayMove } from "@dnd-kit/sortable";
 import { IColumn } from "../models/IColumn";
 import { ColumnActionsType } from "./column-actions";
 import { IAction } from "../models/IAction";
+import { act } from "react";
 
 export default function columnsReducer(
   columns: IColumn[],
@@ -43,6 +44,15 @@ export default function columnsReducer(
       });
       return newColumns;
     }
+    case ColumnActionsType.DELETE_CARD: {
+      console.log(action.payload.id)
+      return columns.map((column) => {
+        return {
+          ...column,
+          cards: column.cards.filter((card) => card.id !== action.payload.id),
+        };
+      });
+    }
     case ColumnActionsType.ADD_COLUMN: {
       const newColumns = [
         ...columns,
@@ -54,6 +64,9 @@ export default function columnsReducer(
         },
       ];
       return newColumns;
+    }
+    case ColumnActionsType.DELETE_COLUMN: {
+      return columns.filter((column) => column.id !== action.payload.id);
     }
     case ColumnActionsType.SET_COLUMN_TITLE: {
       return columns.map((column) => {

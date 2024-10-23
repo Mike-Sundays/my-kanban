@@ -1,12 +1,13 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { CustomInput, InputTypes } from "../CustomInput/CustomInput";
+import { CustomInput } from "../CustomInput/CustomInput";
 import { ColumnsDispatchContext } from "../../shared/columns-context";
 import { useContext } from "react";
 import { ColumnActionsType } from "../../shared/column-actions";
 import { TEXT_PLACEHOLDER } from "../../shared/constants.ts";
 import { v4 as uuidv4 } from "uuid";
-import { ENTER } from "../../shared/constants";
+import { DeleteButton } from "../DeleteButton/DeleteButton.tsx";
+import { XCircleIcon } from "@heroicons/react/16/solid";
 
 interface CardProps {
   id: string;
@@ -37,24 +38,35 @@ export const Card = ({ id, text, placeholder, columnIndex }: CardProps) => {
         id: uuidv4(),
         text: ``,
         placeholder: TEXT_PLACEHOLDER,
-        index: columnIndex
+        index: columnIndex,
       },
     });
   };
 
-  const inputCss = "placeholder:text-gray-400 relative z-10 bg-transparent border-none outline-none";
-  
+  const deleteCard = (event: Event) => {
+    dispatch({
+      type: ColumnActionsType.DELETE_CARD,
+      payload: {
+        id: id,
+      },
+    });
+  };
+
+  const inputCss =
+    "placeholder:text-gray-400 relative z-10 bg-transparent border-none outline-none";
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
   };
 
+  const icon = <XCircleIcon className="size-5" />;
+
   return (
     <div
       ref={setNodeRef}
       style={style}
-      className="p-4 my-1 mx-2 relative border border-solid border-gray-500 bg-gray-100 shadow rounded-md"
+      className="flex justify-between py-4 pl-4 my-1 mx-4 relative border border-solid border-gray-500 bg-gray-100 shadow rounded-md"
       key={id}
       id={id}
     >
@@ -66,6 +78,10 @@ export const Card = ({ id, text, placeholder, columnIndex }: CardProps) => {
         onBlur={onBlur}
         cssClass={inputCss}
       />
+      <DeleteButton
+        onClick={(event: Event) => deleteCard(event)}
+        iconComponent={icon}
+      ></DeleteButton>
       {/* Using the button as the draggable part of the card */}
       <button
         className="absolute top-0 left-0 w-full h-full bg-transparent border-none cursor-pointer"
