@@ -112,6 +112,9 @@ export function Board() {
     });
   };
 
+  const inputCss = "text-2xl text-gray-200 border-none outline-none m-2.5 font-bold bg-slate-700";
+  
+
   return (
     <div className="px-20 py-8 bg-slate-700 w-fit">
       <DndContext
@@ -128,7 +131,7 @@ export function Board() {
                 text={board.title}
                 placeholder={BOARD_TITLE_PLACEHOLDER}
                 onChange={setTitle}
-                type={InputTypes.BOARD_TITLE}
+                cssClass={inputCss}
               ></CustomInput>
               <button className="font-bold text-white float-right cursor-pointer" onClick={addColumns}>+ Column</button>
             </div>

@@ -7,7 +7,7 @@ interface CustomInputProps {
   placeholder?: string;
   onChange: Function;
   onBlur?: Function;
-  type: string;
+  cssClass: string;
 }
 
 export enum InputTypes {
@@ -22,7 +22,7 @@ export const CustomInput = ({
   placeholder,
   onChange,
   onBlur = () => {},
-  type,
+  cssClass,
 }: CustomInputProps) => {
 
   const inputRef: React.Ref<any> = useRef(null);
@@ -45,7 +45,7 @@ export const CustomInput = ({
   return (
     <input
       ref={inputRef}
-      className={cssClass(type)}
+      className={cssClass}
       type="text"
       value={text}
       placeholder={placeholder}
@@ -59,15 +59,3 @@ export const CustomInput = ({
   );
 };
 
-const cssClass = (location: string): string => {
-  switch (location) {
-    case InputTypes.CARD_TEXT:
-      return "placeholder:text-gray-400 relative z-10 bg-transparent border-none outline-none";
-    case InputTypes.BOARD_TITLE:
-      return "text-2xl text-gray-200 border-none outline-none m-2.5 font-bold bg-slate-700";
-    case InputTypes.COLUMN_TITLE:
-      return "mt-2 mb-1 mx-2.5 bg-transparent focus:bg-white px-1 placeholder:font-normal font-bold";
-    default:
-      return "";
-  }
-};

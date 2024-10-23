@@ -58,6 +58,8 @@ export function Column({ column, index }: ColumnProps) {
   };
 
 
+  const inputCss = "mt-2 mb-1 mx-2.5 bg-transparent focus:bg-white px-1 placeholder:font-normal font-bold";
+
   return (
     <>
       <SortableContext
@@ -77,7 +79,7 @@ export function Column({ column, index }: ColumnProps) {
             placeholder={column.placeholder}
             onChange={setTitle}
             onBlur={onBlurTitle}
-            type={InputTypes.COLUMN_TITLE}
+            cssClass={inputCss}
           ></CustomInput>
 
           {column.cards.map((card: ICard) => (

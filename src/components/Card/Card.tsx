@@ -42,6 +42,8 @@ export const Card = ({ id, text, placeholder, columnIndex }: CardProps) => {
     });
   };
 
+  const inputCss = "placeholder:text-gray-400 relative z-10 bg-transparent border-none outline-none";
+  
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -62,7 +64,7 @@ export const Card = ({ id, text, placeholder, columnIndex }: CardProps) => {
         placeholder={placeholder}
         onChange={onEditCard}
         onBlur={onBlur}
-        type={InputTypes.CARD_TEXT}
+        cssClass={inputCss}
       />
       {/* Using the button as the draggable part of the card */}
       <button
