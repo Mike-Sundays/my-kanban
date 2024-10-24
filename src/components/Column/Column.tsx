@@ -19,9 +19,10 @@ import { TrashIcon } from "@heroicons/react/16/solid";
 interface ColumnProps {
   column: IColumn;
   index: number;
+  searchTerm: string;
 }
 
-export function Column({ column, index }: ColumnProps) {
+export function Column({ column, index, searchTerm }: ColumnProps) {
   const dispatch = useContext(ColumnsDispatchContext);
 
   const { setNodeRef } = useDroppable({ id: column.id });
@@ -82,11 +83,11 @@ export function Column({ column, index }: ColumnProps) {
       >
         <div
           ref={setNodeRef}
-          className="border mx-2 border-black border-solid rounded-xl bg-gray-300 flex flex-col justify-between shadow h-fit"
+          className="border mx-2 pb-3 border-black border-solid rounded-xl bg-gray-300 flex flex-col justify-between shadow h-fit"
           key={index}
           id={column.id}
         >
-          <div className="flex flex-row">
+          <div className="flex flex-row mt-0.5">
             <CustomInput
               parentId={column.id}
               text={column.title}
@@ -101,21 +102,31 @@ export function Column({ column, index }: ColumnProps) {
             ></DeleteButton>
           </div>
 
-          {column.cards.map((card: ICard) => (
-            <Card
-              key={card.id}
-              id={card.id}
-              text={card.text}
-              placeholder={card.placeholder}
-              columnIndex={index}
-            ></Card>
-          ))}
-          <button
-            className="cursor-ponter my-2"
-            onClick={(_) => onAddCard(index)}
-          >
-            + Add a card
-          </button>
+          {column.cards.map((card: ICard) => {
+            if (card.visible) {
+              return (
+                <Card
+                  key={card.id}
+                  id={card.id}
+                  text={card.text}
+                  placeholder={card.placeholder}
+                  columnIndex={index}
+                ></Card>
+              );
+            } else {
+              return null;
+            }
+          })}
+
+          {searchTerm === "" ? (
+            <button
+              className="cursor-ponter mt-2"
+              onClick={(_) => onAddCard(index)}
+              disabled={searchTerm !== ""}
+            >
+              + Add a card
+            </button>
+          ) : null}
         </div>
       </SortableContext>
     </>

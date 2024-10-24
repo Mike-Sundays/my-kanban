@@ -7,4 +7,5 @@ export enum ColumnActionsType {
   DRAG_OVER = "DRAG_OVER",
   DRAG_END = "DRAG_END",
   DELETE_COLUMN = "DELETE_COLUMN",
+  FILTER_CARDS = "FILTER_CARDS",
 }

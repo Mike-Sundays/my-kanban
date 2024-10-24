@@ -20,12 +20,14 @@ import {
   LOCAL_STORAGE_BOARD_KEY,
   LOCAL_STORAGE_COLUMNS_KEY,
   DEFAULT_BOARD,
+  SEARCH_PLACEHOLDER,
 } from "../../shared/constants.ts";
 import { ColumnActionsType } from "../../shared/column-actions.ts";
 import { IColumn } from "../../models/IColumn.ts";
 import boardReducer from "../../shared/board-reducer.ts";
 import { BoardActionsType } from "../../shared/board-actions.ts";
 import { CustomInput, InputTypes } from "../CustomInput/CustomInput.tsx";
+import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 
 export function Board() {
   const BOARD_TITLE_PLACEHOLDER = "Title your board...";
@@ -112,8 +114,21 @@ export function Board() {
     });
   };
 
-  const inputCss = "text-2xl text-gray-200 border-none outline-none m-2.5 font-bold bg-slate-700";
-  
+  const filterCards = (id: string, text: string) => {
+    boardDispatch({
+      type: BoardActionsType.SET_SEARCH_TERM,
+      payload: {
+        searchTerm: text,
+      },
+    });
+
+    columnsDispatch({
+      type: ColumnActionsType.FILTER_CARDS,
+      payload: {
+        searchTerm: text,
+      },
+    });
+  };
 
   return (
     <div className="px-20 py-8 bg-slate-700 w-fit">
@@ -125,19 +140,36 @@ export function Board() {
       >
         <ColumnsDispatchContext.Provider value={columnsDispatch}>
           <div className="w-fit">
-            <div className="flex justify-between mr-4">
+            <div className="flex justify-between items-center justify-center mr-4">
               <CustomInput
                 parentId={board.id}
                 text={board.title}
                 placeholder={BOARD_TITLE_PLACEHOLDER}
                 onChange={setTitle}
-                cssClass={inputCss}
+                cssClass="text-2xl text-gray-200 border-none outline-none m-2.5 font-bold bg-slate-700"
               ></CustomInput>
-              <button className="font-bold text-white float-right cursor-pointer" onClick={addColumns}>+ Column</button>
+              <div className="flex">
+                <button
+                  className="font-bold text-white float-right cursor-pointer mr-4"
+                  onClick={addColumns}
+                >
+                  + Column
+                </button>
+                <div className="flex flex-row h-fit items-center justify-center rounded-xl bg-white">
+                  <MagnifyingGlassIcon className="size-4 ml-4"></MagnifyingGlassIcon>
+                  <CustomInput
+                    parentId={board.id}
+                    text={board.searchTerm}
+                    placeholder={SEARCH_PLACEHOLDER}
+                    onChange={filterCards}
+                    cssClass="border-none outline-none p-1 mx-2.5 "
+                  ></CustomInput>
+                </div>
+              </div>
             </div>
             <div className="flex p-0.5">
               {columns.map((column, index) => (
-                <Column key={column.id} column={column} index={index}></Column>
+                <Column key={column.id} column={column} index={index} searchTerm={board.searchTerm}></Column>
               ))}
             </div>
           </div>

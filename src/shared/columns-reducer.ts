@@ -2,7 +2,7 @@ import { arrayMove } from "@dnd-kit/sortable";
 import { IColumn } from "../models/IColumn";
 import { ColumnActionsType } from "./column-actions";
 import { IAction } from "../models/IAction";
-import { act } from "react";
+import { ICard } from "../models/ICard";
 
 export default function columnsReducer(
   columns: IColumn[],
@@ -11,10 +11,11 @@ export default function columnsReducer(
   switch (action.type) {
     case ColumnActionsType.ADD_CARD: {
       const columnIndex = action.payload.index;
-      const newCard = {
+      const newCard: ICard = {
         id: action.payload.id,
         text: ``,
         placeholder: action.payload.placeholder,
+        visible: true,
       };
       const newColumns = columns.map((column, index) => {
         if (index === columnIndex) {
@@ -44,8 +45,22 @@ export default function columnsReducer(
       });
       return newColumns;
     }
+    case ColumnActionsType.FILTER_CARDS: {
+      const searchTerm = action.payload.searchTerm;
+      return columns.map((column) => {
+        return {
+          ...column,
+          cards: column.cards.map((card) => {
+            if (searchTerm === '' || card.text.includes(searchTerm)) {
+              return { ...card, visible: true };
+            } else {
+              return { ...card,visible: false };
+            }
+          }),
+        };
+      });
+    }
     case ColumnActionsType.DELETE_CARD: {
-      console.log(action.payload.id)
       return columns.map((column) => {
         return {
           ...column,
