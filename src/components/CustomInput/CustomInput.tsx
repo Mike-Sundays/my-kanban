@@ -1,4 +1,4 @@
-import { useRef, useEffect, useContext } from "react";
+import { useRef, useEffect } from "react";
 import { ENTER, ESCAPE } from "../../shared/constants";
 
 interface CustomInputProps {

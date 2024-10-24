@@ -31,7 +31,7 @@ export const Card = ({ id, text, placeholder, columnIndex }: CardProps) => {
     });
   };
 
-  const onBlur = (event: Event) => {
+  const onBlur = (_: Event) => {
     dispatch({
       type: ColumnActionsType.ADD_CARD,
       payload: {
@@ -43,7 +43,7 @@ export const Card = ({ id, text, placeholder, columnIndex }: CardProps) => {
     });
   };
 
-  const deleteCard = (event: Event) => {
+  const deleteCard = (_: Event) => {
     dispatch({
       type: ColumnActionsType.DELETE_CARD,
       payload: {

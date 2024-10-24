@@ -26,7 +26,7 @@ import { ColumnActionsType } from "../../shared/column-actions.ts";
 import { IColumn } from "../../models/IColumn.ts";
 import boardReducer from "../../shared/board-reducer.ts";
 import { BoardActionsType } from "../../shared/board-actions.ts";
-import { CustomInput, InputTypes } from "../CustomInput/CustomInput.tsx";
+import { CustomInput } from "../CustomInput/CustomInput.tsx";
 import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 
 export function Board() {
@@ -114,7 +114,7 @@ export function Board() {
     });
   };
 
-  const filterCards = (id: string, text: string) => {
+  const filterCards = (_: string, text: string) => {
     boardDispatch({
       type: BoardActionsType.SET_SEARCH_TERM,
       payload: {

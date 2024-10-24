@@ -5,7 +5,7 @@ import {
 import { ICard } from "../../models/ICard.ts";
 import { Card } from "../Card/Card.tsx";
 import { useDroppable } from "@dnd-kit/core";
-import { CustomInput, InputTypes } from "../CustomInput/CustomInput.tsx";
+import { CustomInput } from "../CustomInput/CustomInput.tsx";
 import { DeleteButton } from "../DeleteButton/DeleteButton.tsx";
 
 import { IColumn } from "../../models/IColumn.ts";
@@ -49,7 +49,7 @@ export function Column({ column, index, searchTerm }: ColumnProps) {
     });
   };
 
-  const onBlurTitle = (event: Event) => {
+  const onBlurTitle = (_: Event) => {
     dispatch({
       type: ColumnActionsType.ADD_CARD,
       payload: {
@@ -61,7 +61,7 @@ export function Column({ column, index, searchTerm }: ColumnProps) {
     });
   };
 
-  const deleteColumn = (event: Event) => {
+  const deleteColumn = (_: Event) => {
     dispatch({
       type: ColumnActionsType.DELETE_COLUMN,
       payload: {
