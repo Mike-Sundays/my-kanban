@@ -8,12 +8,8 @@ interface CustomInputProps {
   onChange: Function;
   onBlur?: Function;
   cssClass: string;
-}
-
-export enum InputTypes {
-  CARD_TEXT = "card-text",
-  BOARD_TITLE = "board-title",
-  COLUMN_TITLE = "column-title",
+  editable: boolean;
+  toggleable: boolean;
 }
 
 export const CustomInput = ({
@@ -23,22 +19,23 @@ export const CustomInput = ({
   onChange,
   onBlur = () => {},
   cssClass,
+  editable,
+  toggleable,
 }: CustomInputProps) => {
-
   const inputRef: React.Ref<any> = useRef(null);
 
   useEffect(() => {
-    if(text === ''){
+    if ((text === "" || editable === true) && toggleable) {
       inputRef.current?.focus();
     }
-  }, []); // Empty dependency array means this runs only once on mount
+  }, [editable]); // Empty dependency array means this runs only once on mount
 
   const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if ( event.key === ESCAPE) {
+    if (event.key === ESCAPE) {
       inputRef.current?.blur();
-    } else if(event.key === ENTER){
-      inputRef.current?.blur();
-      onBlur()
+    }
+    if (event.key === ENTER) {
+      onBlur(event);
     }
   };
 
@@ -48,6 +45,7 @@ export const CustomInput = ({
       className={cssClass}
       type="text"
       value={text}
+      disabled={!editable}
       placeholder={placeholder}
       onChange={(event) => {
         onChange(parentId, event.target.value);
@@ -55,7 +53,9 @@ export const CustomInput = ({
       onKeyDown={(event) => {
         onKeyDown(event);
       }}
+      onBlur={(event) => {
+        onBlur(event);
+      }}
     />
   );
 };
-

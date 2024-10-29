@@ -16,6 +16,8 @@ export default function columnsReducer(
         text: ``,
         placeholder: action.payload.placeholder,
         visible: true,
+        editable: true,
+        isFirstEdit: true
       };
       const newColumns = columns.map((column, index) => {
         if (index === columnIndex) {
@@ -25,6 +27,24 @@ export default function columnsReducer(
           };
         }
         return column;
+      });
+      return newColumns;
+    }
+    case ColumnActionsType.TOGGLE_CARD_EDIT: {
+      const newColumns = columns.map((column) => {
+        return {
+          ...column,
+          cards: column.cards.map((card) => {
+            if (card.id === action.payload.id) {
+              return {
+                ...card,
+                editable: !card.editable,
+                isFirstEdit: false
+              };
+            }
+            return card;
+          }),
+        };
       });
       return newColumns;
     }
@@ -51,10 +71,10 @@ export default function columnsReducer(
         return {
           ...column,
           cards: column.cards.map((card) => {
-            if (searchTerm === '' || card.text.includes(searchTerm)) {
+            if (searchTerm === "" || card.text.includes(searchTerm)) {
               return { ...card, visible: true };
             } else {
-              return { ...card,visible: false };
+              return { ...card, visible: false };
             }
           }),
         };

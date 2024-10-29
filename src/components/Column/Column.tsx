@@ -6,12 +6,12 @@ import { ICard } from "../../models/ICard.ts";
 import { Card } from "../Card/Card.tsx";
 import { useDroppable } from "@dnd-kit/core";
 import { CustomInput } from "../CustomInput/CustomInput.tsx";
-import { DeleteButton } from "../DeleteButton/DeleteButton.tsx";
+import { ActionButton } from "../ActionButton/ActionButton.tsx";
 
 import { IColumn } from "../../models/IColumn.ts";
 import { useContext } from "react";
 import { ColumnsDispatchContext } from "../../shared/columns-context.ts";
-import { TEXT_PLACEHOLDER } from "../../shared/constants.ts";
+import { ENTER, TEXT_PLACEHOLDER } from "../../shared/constants.ts";
 import { v4 as uuidv4 } from "uuid";
 import { ColumnActionsType } from "../../shared/column-actions.ts";
 import { TrashIcon } from "@heroicons/react/16/solid";
@@ -49,19 +49,21 @@ export function Column({ column, index, searchTerm }: ColumnProps) {
     });
   };
 
-  const onBlurTitle = (_: Event) => {
-    dispatch({
-      type: ColumnActionsType.ADD_CARD,
-      payload: {
-        id: uuidv4(),
-        text: ``,
-        placeholder: TEXT_PLACEHOLDER,
-        index: index,
-      },
-    });
+  const onBlurTitle = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if(event.key === ENTER){
+      dispatch({
+        type: ColumnActionsType.ADD_CARD,
+        payload: {
+          id: uuidv4(),
+          text: ``,
+          placeholder: TEXT_PLACEHOLDER,
+          index: index,
+        },
+      });
+    }
   };
 
-  const deleteColumn = (_: Event) => {
+  const deleteColumn = (_: React.SyntheticEvent) => {
     dispatch({
       type: ColumnActionsType.DELETE_COLUMN,
       payload: {
@@ -71,7 +73,9 @@ export function Column({ column, index, searchTerm }: ColumnProps) {
   };
 
   const inputCss =
-    "mt-2 mb-1 ml-5 bg-transparent focus:bg-white pl-1 pr-1.5 placeholder:font-normal font-bold";
+    "mt-2 mb-1 ml-5 mr-2 bg-transparent focus:bg-white pl-1 pr-1.5 placeholder:font-normal font-bold w-9/12";
+
+  const deleteButtonCSS = "z-10 flex items-center justify-center mx-0.5 my-2 size-6 font-bold hover:bg-gray-200 hover:outline-none hover:rounded-full"
   const icon = <TrashIcon className="size-5" />;
 
   return (
@@ -95,11 +99,14 @@ export function Column({ column, index, searchTerm }: ColumnProps) {
               onChange={setTitle}
               onBlur={onBlurTitle}
               cssClass={inputCss}
+              editable={true}
+              toggleable={false}
             ></CustomInput>
-            <DeleteButton
-              onClick={(event: Event) => deleteColumn(event)}
+            <ActionButton
+              onClick={(event: React.SyntheticEvent) => deleteColumn(event)}
               iconComponent={icon}
-            ></DeleteButton>
+              css={deleteButtonCSS}
+            ></ActionButton>
           </div>
 
           {column.cards.map((card: ICard) => {
@@ -111,6 +118,8 @@ export function Column({ column, index, searchTerm }: ColumnProps) {
                   text={card.text}
                   placeholder={card.placeholder}
                   columnIndex={index}
+                  editable={card.editable}
+                  isFirstEdit={card.isFirstEdit}
                 ></Card>
               );
             } else {

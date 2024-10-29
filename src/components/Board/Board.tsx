@@ -146,7 +146,9 @@ export function Board() {
                 text={board.title}
                 placeholder={BOARD_TITLE_PLACEHOLDER}
                 onChange={setTitle}
+                editable={true}
                 cssClass="text-2xl text-gray-200 border-none outline-none m-2.5 font-bold bg-slate-700"
+                toggleable={false}
               ></CustomInput>
               <div className="flex">
                 <button
@@ -160,9 +162,11 @@ export function Board() {
                   <CustomInput
                     parentId={board.id}
                     text={board.searchTerm}
+                    editable={true}
                     placeholder={SEARCH_PLACEHOLDER}
                     onChange={filterCards}
                     cssClass="border-none outline-none p-1 mx-2.5 "
+                    toggleable={false}
                   ></CustomInput>
                 </div>
               </div>
